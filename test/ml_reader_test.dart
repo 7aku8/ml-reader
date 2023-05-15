@@ -10,6 +10,9 @@ class MockMlReaderPlatform
 
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<String?> scanImage() => Future.value('test');
 }
 
 void main() {

@@ -18,6 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   final _mlReaderPlugin = MlReader();
+  String? scanResult = '';
 
   @override
   void initState() {
@@ -31,8 +32,8 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _mlReaderPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = await _mlReaderPlugin.getPlatformVersion() ??
+          'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -47,6 +48,20 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> scanImage() async {
+    String? result;
+
+    try {
+      result = await _mlReaderPlugin.scanImage();
+    } on PlatformException {
+      result = 'error';
+    }
+
+    setState(() {
+      scanResult = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -55,7 +70,16 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            children: <Widget>[
+              Text('Running on: $_platformVersion\n'),
+              MaterialButton(
+                onPressed: scanImage,
+                child: const Text('Scan text'),
+              ),
+              Text(scanResult ?? 'empty'),
+            ],
+          ),
         ),
       ),
     );

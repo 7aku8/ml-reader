@@ -14,4 +14,13 @@ class MethodChannelMlReader extends MlReaderPlatform {
     final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
+
+  @override
+  Future<String?> scanImage() async {
+    final recognized = await methodChannel.invokeMethod<String?>('scanImage');
+
+    print(recognized);
+
+    return recognized;
+  }
 }

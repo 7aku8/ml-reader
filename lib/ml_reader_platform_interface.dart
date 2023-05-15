@@ -26,4 +26,8 @@ abstract class MlReaderPlatform extends PlatformInterface {
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  Future<String?> scanImage() {
+    throw UnimplementedError('scanImage() has not been implemented.');
+  }
 }
